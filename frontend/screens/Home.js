@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Container from '../components/Container'; // Importez le composant Container
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
 const Home = () => {
+  const navigation = useNavigation();
+
+  // Fonction pour naviguer vers la page des avis
+  const handleNavigateToAvis = () => {
+    console.log("Navigating to Avis screen");
+    navigation.navigate('Avis');
+  };
+
   // État pour stocker les données des diapositives
   const [data, setData] = useState([]);
 
@@ -45,6 +54,12 @@ const Home = () => {
       <View style={[styles.slide, { width }]} key={index}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
+       
+        {index === data.length - 1 && (
+          <TouchableOpacity style={styles.button} onPress={handleNavigateToAvis}>
+            <Text style={styles.buttonText}>Voir les avis</Text>
+          </TouchableOpacity>
+        )}
       </View>
     ));
   };
@@ -56,12 +71,12 @@ const Home = () => {
           <Text style={styles.title}>Bienvenue à Arcadia</Text>
         </View>
         <Text style={styles.subtitle}>Le zoo écologique près de la forêt de Brocéliande</Text>
-        {/* Débogage: Affiche le chemin de l'image */}
+        
         {console.log("Chemin de l'image:", require('../../assets/TopHome.jpg'))}
-        {/* Affiche l'image */}
+        
         <Image source={require('../../assets/TopHome.jpg')} style={styles.image} />
       </View>
-      {/* Swiper pour afficher les diapositives */}
+      
       <Swiper
         loop={false}
         showsButtons={false}
@@ -128,7 +143,19 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     margin: 3,
-  }
+  },
+  button: {
+    backgroundColor: '#2E8B57',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
 
 export default Home;

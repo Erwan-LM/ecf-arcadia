@@ -14,6 +14,74 @@ CREATE TABLE IF NOT EXISTS habitat_biom (
     photo_hash VARCHAR(64)
 );
 
+-- Création de la table services
+CREATE TABLE IF NOT EXISTS services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    description TEXT
+);
+
+INSERT INTO services (nom, description)
+SELECT 'Restauration', 'Profitez de notre service de restauration avec des plats locaux et bio.'
+WHERE NOT EXISTS (
+    SELECT * FROM services WHERE nom = 'Restauration'
+);
+
+INSERT INTO services (nom, description)
+SELECT 'Visite des habitats avec un guide', 'Découvrez les habitats des animaux avec un guide expérimenté. (Gratuit)'
+WHERE NOT EXISTS (
+    SELECT * FROM services WHERE nom = 'Visite des habitats avec un guide'
+);
+
+INSERT INTO services (nom, description)
+SELECT 'Visite du zoo en petit train', 'Faites le tour du zoo en petit train et admirez les animaux.'
+WHERE NOT EXISTS (
+    SELECT * FROM services WHERE nom = 'Visite du zoo en petit train'
+);
+
+
+
+CREATE TABLE IF NOT EXISTS Utilisateurs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type ENUM('Administrateur', 'Employé', 'Vétérinaire') NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    est_actif BOOLEAN DEFAULT TRUE
+);
+
+INSERT INTO Utilisateurs (type, email, mot_de_passe)
+SELECT 'Administrateur', 'admin.arcadia@gmail.com', 'admin'
+WHERE NOT EXISTS (
+    SELECT 1 FROM Utilisateurs WHERE email = 'admin.arcadia@gmail.com'
+);
+
+
+CREATE TABLE IF NOT EXISTS Animaux (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prenom VARCHAR(255) NOT NULL,
+    race VARCHAR(255) NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    habitat VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Avis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pseudo VARCHAR(255) NOT NULL,
+    avis TEXT NOT NULL,
+    est_valide BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS ComptesRendus (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_utilisateur INT NOT NULL,
+    id_animal INT NOT NULL,
+    date DATE NOT NULL,
+    rapport TEXT,
+    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id),
+    FOREIGN KEY (id_animal) REFERENCES Animaux(id)
+);
+
+
 -- Insérer les images pour l'habitat "Savane"
 INSERT INTO habitat_biom (habitat, animal, photo_path, photo_hash) VALUES ('Savane', 'zebre', 'assets/savane_01.jpg', SHA2('assets/savane_01.jpg', 256));
 INSERT INTO habitat_biom (habitat, animal, photo_path, photo_hash) VALUES ('Savane', 'panda-roux', 'assets/savane_02.jpg', SHA2('assets/savane_02.jpg', 256));

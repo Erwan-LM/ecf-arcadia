@@ -10,8 +10,10 @@ const Aqua = () => {
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
   useEffect(() => {
+    console.log("Fetching data from API...");
     axios.get('http://10.0.2.2:3000/api/habitat/aqua')
       .then(response => {
+        console.log("Data fetched successfully:", response.data);
         setData(response.data);
       })
       .catch(error => {

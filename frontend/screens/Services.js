@@ -1,47 +1,62 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
-import Container from '../components/Container'; // Assurez-vous que ce composant existe et est correctement importé
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, Dimensions, ActivityIndicator } from 'react-native';
+import Container from '../components/Container';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
-const servicesData = [
-  {
-    id: '1',
-    name: 'Restauration',
-    description: 'Profitez de notre service de restauration avec des plats locaux et bio.',
-  },
-  {
-    id: '2',
-    name: 'Visite des habitats avec un guide',
-    description: 'Découvrez les habitats des animaux avec un guide expérimenté. (Gratuit)',
-  },
-  {
-    id: '3',
-    name: 'Visite du zoo en petit train',
-    description: 'Faites le tour du zoo en petit train et admirez les animaux.',
-  },
-];
-
-const ServiceItem = ({ name, description }) => (
-  <View style={styles.serviceItem}>
-    <Text style={styles.serviceName}>{name}</Text>
-    <Text style={styles.serviceDescription}>{description}</Text>
-  </View>
-);
-
 const Services = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      console.log('Fetching services...');
+      try {
+        // Change this to your machine's IP address
+        const response = await axios.get('http://10.0.2.2:3000/api/services'); 
+        console.log('Services fetched successfully:', response.data);
+        setServices(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching services:', error);
+        if (error.response) {
+          console.error('Response error:', error.response);
+        } else if (error.request) {
+          console.error('Request error:', error.request);
+        } else {
+          console.error('Error message:', error.message);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const renderServiceItem = ({ item }) => (
+    <View style={styles.serviceItem}>
+      <Text style={styles.serviceName}>{item.nom}</Text>
+      <Text style={styles.serviceDescription}>{item.description}</Text>
+    </View>
+  );
+
   return (
     <Container>
       <View style={styles.header}>
         <Text style={styles.title}>Nos Services</Text>
         <Text style={styles.subtitle}>Découvrez tous les services proposés par le parc Arcadia</Text>
       </View>
-      <FlatList
-        data={servicesData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ServiceItem name={item.name} description={item.description} />}
-        contentContainerStyle={styles.listContainer}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="#2E8B57" style={{ marginTop: 20 }} />
+      ) : (
+        <FlatList
+          data={services}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderServiceItem}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
     </Container>
   );
 };

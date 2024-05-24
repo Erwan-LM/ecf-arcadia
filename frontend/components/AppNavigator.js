@@ -12,6 +12,10 @@ import MontsScreen from '../screens/Monts';
 import PrairieScreen from '../screens/Prairie';
 import SavaneScreen from '../screens/Savane';
 import TropicScreen from '../screens/Tropic';
+import AvisScreen from '../screens/Avis';
+import EmployeScreen from '../screens/Employe';
+import AdministrateurScreen from '../screens/Administrateur';
+import VeterinaireScreen from '../screens/Veterinaire';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +32,10 @@ const AppNavigator = () => {
         <Stack.Screen name="Prairie" component={PrairieScreen} />
         <Stack.Screen name="Savane" component={SavaneScreen} />
         <Stack.Screen name="Tropic" component={TropicScreen} />
+        <Stack.Screen name="Avis" component={AvisScreen} />
+        <Stack.Screen name="Employe" component={EmployeScreen} />
+        <Stack.Screen name="Administrateur" component={AdministrateurScreen} />
+        <Stack.Screen name="Veterinaire" component={VeterinaireScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
