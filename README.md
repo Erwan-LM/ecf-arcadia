@@ -127,6 +127,7 @@ Avantages:
 Rapidité de développement: Expo offre un ensemble d'outils et de bibliothèques prêts à l'emploi qui accélèrent le processus de développement.
 Déploiement simplifié: Expo simplifie le processus de déploiement en fournissant des outils pour générer des fichiers binaires prêts à être déployés sur les app stores.
 Live Reload: La fonctionnalité Live Reload permet de voir instantanément les modifications apportées au code pendant le développement.
+  
 <u>React Navigation</u>:
 
 Choix: React Navigation a été choisi pour gérer la navigation entre les différents écrans de l'application.
@@ -134,12 +135,14 @@ Avantages:
 Facilité d'utilisation: React Navigation offre une API simple et intuitive pour gérer la navigation dans une application React Native.
 Prise en charge de plusieurs types de navigation: React Navigation prend en charge différents types de navigation, tels que la navigation par onglets, la navigation par pile et la navigation par côte à côte.
 Personnalisable: Il est facile de personnaliser l'apparence et le comportement de la navigation avec React Navigation.
+  
 <u>Axios</u>:
 
 Choix: Axios a été choisi comme client HTTP pour effectuer des requêtes réseau dans l'application.
 Avantages:
 Facilité d'utilisation: Axios offre une syntaxe simple et intuitive pour effectuer des requêtes HTTP.
 Prise en charge des intercepteurs: Axios permet d'intercepter et de modifier les requêtes et les réponses, ce qui est utile pour ajouter des en-têtes d'autorisation ou gérer les erreurs de manière centralisée.
+  
 <u>React Native Gesture Handler, React Native Reanimated, React Native Safe Area Context, React Native Screens, React Native Swiper, React Native Vector Icons</u>:
 
 Choix: Ces bibliothèques ont été choisies pour améliorer l'expérience utilisateur et fournir des fonctionnalités supplémentaires telles que les gestes, les animations et les icônes personnalisées.
@@ -155,12 +158,14 @@ Choix: Node.js a été choisi comme environnement d'exécution côté serveur po
 Avantages:
 JavaScript côté serveur: Avec Node.js, nous pouvons utiliser JavaScript à la fois côté client et côté serveur, ce qui permet une cohérence de la logique et des modèles de programmation.
 Évolutivité: Node.js est connu pour sa capacité à gérer de grandes charges de travail avec une faible utilisation des ressources système, ce qui le rend adapté aux applications à forte charge.
+  
 <u>Express.js</u>:
 
 Choix: Express.js a été choisi comme framework Web pour construire l'API RESTful du backend.
 Avantages:
 Minimalisme: Express.js est un framework léger qui offre un ensemble minimal de fonctionnalités, ce qui le rend facile à apprendre et à utiliser.
 Middleware: Express.js offre un système de middleware flexible qui permet de gérer facilement les requêtes HTTP, d'effectuer des validations et d'ajouter des fonctionnalités supplémentaires à l'application.
+  
 <u>MySQL</u>:
 
 Choix: MySQL a été choisi comme système de gestion de base de données relationnelle pour stocker les données de l'application.
