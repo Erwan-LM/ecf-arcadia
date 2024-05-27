@@ -119,6 +119,7 @@ Avantages:
 Réutilisation du code: Avec React Native, nous pouvons réutiliser une grande partie du code entre les plateformes iOS et Android, ce qui réduit le temps de développement et les coûts.
 Performances: Les applications React Native offrent généralement des performances similaires aux applications natives, car elles utilisent des composants natifs.
 Grande communauté: React Native est largement adopté par la communauté des développeurs, ce qui signifie qu'il existe de nombreuses ressources disponibles pour résoudre les problèmes et améliorer les compétences.
+  
 <u>Expo</u>:
 
 Choix: Expo a été choisi pour faciliter le développement et le déploiement rapide d'applications React Native.
