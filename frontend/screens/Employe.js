@@ -3,10 +3,13 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import Container from '../components/Container';
 import axios from 'axios';
 import Swiper from 'react-native-swiper';
+import useLocalIpAddress from '@config';
 
 const Employe = () => {
     const [animaux, setAnimaux] = useState([]);
     const [pendingAvis, setPendingAvis] = useState([]);
+
+    const ip = useLocalIpAddress();
 
     useEffect(() => {
         fetchAnimaux();
@@ -14,19 +17,19 @@ const Employe = () => {
     }, []);
 
     const fetchAnimaux = () => {
-        axios.get('http://localhost:3000/api/animaux')
+        axios.get(`http://${ip}:3000/api/animaux`)
             .then(response => setAnimaux(response.data))
             .catch(error => console.error('Erreur lors de la récupération des animaux :', error));
     };
 
     const fetchAvis = () => {
-        axios.get('http://localhost:3000/api/avis')
+        axios.get(`http://${ip}:3000/api/avis`)
             .then(response => setPendingAvis(response.data))
             .catch(error => console.error('Erreur lors de la récupération des avis :', error));
     };
 
     const handleAvisValidation = (id, est_valide) => {
-        axios.put(`http://localhost:3000/api/avis/${id}`, { est_valide })
+        axios.put(`http://${ip}:3000/api/avis/${id}`, { est_valide })
             .then(() => {
                 setPendingAvis(pendingAvis.filter(avis => avis.id !== id));
             })

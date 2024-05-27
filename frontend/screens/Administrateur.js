@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, FlatList, TouchableOpacity, StyleSheet, 
 import Container from '../components/Container';
 import axios from 'axios';
 import Swiper from 'react-native-swiper';
+import useLocalIpAddress from '@config';
 
 const Administrateur = () => {
     // State pour la création de comptes
@@ -18,6 +19,8 @@ const Administrateur = () => {
     // State pour la gestion des animaux
     const [animaux, setAnimaux] = useState([]);
 
+    const ip = useLocalIpAddress();
+
     useEffect(() => {
         // Chargement initial des données (services, habitats, animaux, etc.)
         console.log("Fetching services...");
@@ -30,7 +33,7 @@ const Administrateur = () => {
 
     const fetchServices = () => {
         // Récupérer les services depuis le backend
-        axios.get('http://10.0.2.2:3000/api/services')
+        axios.get(`http://${ip}:3000/api/services`)
             .then(response => {
                 console.log("Services:", response.data);
                 setServices(response.data);
@@ -40,7 +43,7 @@ const Administrateur = () => {
 
     const fetchHabitats = () => {
         // Récupérer les habitats depuis le backend
-        axios.get('http://10.0.2.2:3000/api/habitats')
+        axios.get(`http://${ip}:3000/api/habitats`)
             .then(response => {
                 console.log("Habitats:", response.data);
                 setHabitats(response.data);
@@ -50,7 +53,7 @@ const Administrateur = () => {
 
     const fetchAnimaux = () => {
         // Récupérer les animaux depuis le backend
-        axios.get('http://10.0.2.2:3000/api/animaux')
+        axios.get(`http://${ip}:3000/api/animaux`)
             .then(response => {
                 console.log("Animaux:", response.data);
                 setAnimaux(response.data);
@@ -61,7 +64,7 @@ const Administrateur = () => {
     const addService = () => {
         // Ajouter un nouveau service
         console.log("Adding new service:", newService);
-        axios.post('http://10.0.2.2:3000/api/services', { name: newService })
+        axios.post(`http://${ip}:3000/api/services`, { name: newService })
             .then(response => {
                 console.log("New service added successfully:", response.data);
                 fetchServices();
@@ -73,7 +76,7 @@ const Administrateur = () => {
     const deleteService = (id) => {
         // Supprimer un service
         console.log("Deleting service with ID:", id);
-        axios.delete(`http://10.0.2.2:3000/api/services/${id}`)
+        axios.delete(`http://${ip}:3000/api/services/${id}`)
             .then(response => {
                 console.log("Service deleted successfully.");
                 fetchServices();
@@ -85,7 +88,7 @@ const Administrateur = () => {
     const createAccount = () => {
         // Appel à une API pour créer un compte
         console.log("Creating account with username:", username);
-        axios.post('http://10.0.2.2:3000/api/accounts', {
+        axios.post(`http://${ip}:3000/api/accounts`, {
             username,
             password,
             accountType
@@ -146,11 +149,11 @@ const Administrateur = () => {
                     value={newHabitat}
                     onChangeText={setNewHabitat}
                 />
-                <Button title="Ajouter" onPress={addService} /> {/* Change to addHabitat when implemented */}
+                <Button title="Ajouter" onPress={addHabitat} />
                 <FlatList
                     data={habitats}
                     renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => deleteService(item.id)}>
+                        <TouchableOpacity onPress={() => deleteHabitat(item.id)}>
                             <Text>{item.name}</Text>
                         </TouchableOpacity>
                     )}
@@ -158,52 +161,22 @@ const Administrateur = () => {
                 />
 
                 <Text>Gestion des animaux</Text>
-                <Container>
-                    <Swiper style={styles.wrapper} showsButtons={true}>
-                        {animaux.map((animal) => (
-                            <View key={animal.id} style={styles.card}>
-                                <Text style={styles.name}>{animal.prenom}</Text>
-                                <Text style={styles.race}>{animal.race}</Text>
-                                <Image source={{ uri: animal.image_path }} style={styles.image} />
-                                <Text style={styles.habitat}>{animal.habitat}</Text>
-                            </View>
-                        ))}
-                    </Swiper>
-                </Container>
+                <Swiper showsButtons loop={false}>
+                    {animaux.map((animal) => (
+                        <View key={animal.id}>
+                            <Image source={{ uri: animal.imageUri }} style={{ width: 200, height: 200 }} />
+                            <Text>{animal.name}</Text>
+                            <Text>{animal.description}</Text>
+                        </View>
+                    ))}
+                </Swiper>
             </View>
         </Container>
     );
 };
 
 const styles = StyleSheet.create({
-    wrapper: {
-        flex: 1,
-    },
-    card: {
-        backgroundColor: '#FFF',
-        borderRadius: 10,
-        padding: 10,
-        alignItems: 'center',
-        margin: 10,
-    },
-    name: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    race: {
-        fontSize: 16,
-        marginBottom: 5,
-    },
-    image: {
-        width: 200,
-        height: 200,
-        marginBottom: 5,
-    },
-    habitat: {
-        fontSize: 16,
-        color: '#555',
-    },
+    // Ajoutez vos styles ici
 });
 
 export default Administrateur;

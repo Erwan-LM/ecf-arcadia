@@ -1,12 +1,11 @@
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-});
+// Importer le module database.js
+const database = require('../../database/database');
 
+
+// Créer une connexion à la base de données en utilisant la fonction exportée du module database
+const connection = database.createConnection();
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL database:', err);

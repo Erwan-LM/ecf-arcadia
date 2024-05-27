@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import axios from 'axios';
 import Container from '../components/Container';
+import useLocalIpAddress from '@config';
 
 const { width } = Dimensions.get('window');
 
@@ -9,8 +10,10 @@ const Monts = () => {
   const [data, setData] = useState([]);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
+  const ip = useLocalIpAddress();
+
   useEffect(() => {
-    axios.get('http://10.0.2.2:3000/api/habitat/monts')
+    axios.get(`http://${ip}:3000/api/habitat/monts`)
       .then(response => {
         setData(response.data);
       })
@@ -21,7 +24,7 @@ const Monts = () => {
 
   const renderAnimal = ({ item }) => (
     <TouchableOpacity style={styles.animalContainer} onPress={() => setSelectedAnimal(item)}>
-      <Image source={{ uri: `http://10.0.2.2:3000/assets/${item.photo_path}` }} style={styles.animalImage} />
+      <Image source={{ uri: `http://${ip}:3000/assets/${item.photo_path}` }} style={styles.animalImage} />
       <Text style={styles.animalName}>{item.animal}</Text>
     </TouchableOpacity>
   );
@@ -29,7 +32,7 @@ const Monts = () => {
   return (
     <Container>
       <View style={styles.header}>
-        <Text style={styles.title}>Montage</Text>
+        <Text style={styles.title}>Montagne</Text>
       </View>
       <FlatList
         data={data}
@@ -41,7 +44,7 @@ const Monts = () => {
       {selectedAnimal && (
         <View style={styles.animalDetail}>
           <Text style={styles.animalDetailTitle}>{selectedAnimal.animal}</Text>
-          <Image source={{ uri: `http://10.0.2.2:3000/assets/${selectedAnimal.photo_path}` }} style={styles.animalDetailImage} />
+          <Image source={{ uri: `http://${ip}:3000/assets/${selectedAnimal.photo_path}` }} style={styles.animalDetailImage} />
           <Text style={styles.animalDetailText}>Race: {selectedAnimal.race}</Text>
           <Text style={styles.animalDetailText}>État: {selectedAnimal.state}</Text>
           <Text style={styles.animalDetailText}>Nourriture: {selectedAnimal.food} ({selectedAnimal.grammage}g)</Text>

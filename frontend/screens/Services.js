@@ -2,19 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions, ActivityIndicator } from 'react-native';
 import Container from '../components/Container';
 import axios from 'axios';
+import useLocalIpAddress from '@config';
 
 const { width, height } = Dimensions.get('window');
 
 const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const ipAddress = useLocalIpAddress();
 
   useEffect(() => {
     const fetchServices = async () => {
       console.log('Fetching services...');
       try {
-        // Change this to your machine's IP address
-        const response = await axios.get('http://10.0.2.2:3000/api/services'); 
+        if (!ipAddress) {
+          console.error('IP Address is not defined.');
+          setLoading(false);
+          return;
+        }
+        // Utilisez une adresse IP de secours si l'adresse IP locale n'est pas disponible
+        const response = await axios.get(`http://${ipAddress || '192.168.1.1'}:3000/api/services`);
         console.log('Services fetched successfully:', response.data);
         setServices(response.data);
         setLoading(false);
@@ -32,7 +39,7 @@ const Services = () => {
     };
 
     fetchServices();
-  }, []);
+  }, [ipAddress]);
 
   const renderServiceItem = ({ item }) => (
     <View style={styles.serviceItem}>

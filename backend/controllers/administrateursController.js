@@ -3,13 +3,9 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// Connexion à la base de données MySQL
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
+const database = require('../../database/database');
+
+const connection = database.createConnection();
 
 connection.connect((err) => {
   if (err) {
@@ -74,7 +70,20 @@ exports.creerCompte = async (req, res) => {
 // Fonction pour modifier les services du zoo
 exports.modifierServices = async (req, res) => {
     try {
-        // Logique pour modifier les services du zoo
+        const { id, nom, description } = req.body;
+        
+        const sql = 'UPDATE services SET nom = ?, description = ? WHERE id = ?';
+        const values = [nom, description, id];
+
+        connection.query(sql, values, (error, results) => {
+            if (error) {
+                console.error('Error updating services:', error);
+                res.status(500).json({ message: 'Erreur lors de la modification des services' });
+                return;
+            }
+            console.log('Services updated successfully');
+            res.status(200).json({ message: 'Services mis à jour avec succès' });
+        });
     } catch (error) {
         console.error('Erreur lors de la modification des services:', error);
         res.status(500).json({ message: 'Erreur lors de la modification des services' });
@@ -84,7 +93,20 @@ exports.modifierServices = async (req, res) => {
 // Fonction pour modifier les habitats du zoo
 exports.modifierHabitat = async (req, res) => {
     try {
-        // Logique pour modifier les habitats du zoo
+        const { id, habitat, animal, photo_path, photo_hash } = req.body;
+        
+        const sql = 'UPDATE habitat_biom SET habitat = ?, animal = ?, photo_path = ?, photo_hash = ? WHERE id = ?';
+        const values = [habitat, animal, photo_path, photo_hash, id];
+
+        connection.query(sql, values, (error, results) => {
+            if (error) {
+                console.error('Error updating habitats:', error);
+                res.status(500).json({ message: 'Erreur lors de la modification des habitats' });
+                return;
+            }
+            console.log('Habitats updated successfully');
+            res.status(200).json({ message: 'Habitats mis à jour avec succès' });
+        });
     } catch (error) {
         console.error('Erreur lors de la modification des habitats:', error);
         res.status(500).json({ message: 'Erreur lors de la modification des habitats' });
@@ -94,12 +116,26 @@ exports.modifierHabitat = async (req, res) => {
 // Fonction pour modifier les animaux du zoo
 exports.modifierAnimaux = async (req, res) => {
     try {
-        // Logique pour modifier les animaux du zoo
+        const { id, prenom, race, image_path, habitat } = req.body;
+        
+        const sql = 'UPDATE Animaux SET prenom = ?, race = ?, image_path = ?, habitat = ? WHERE id = ?';
+        const values = [prenom, race, image_path, habitat, id];
+
+        connection.query(sql, values, (error, results) => {
+            if (error) {
+                console.error('Error updating animals:', error);
+                res.status(500).json({ message: 'Erreur lors de la modification des animaux' });
+                return;
+            }
+            console.log('Animals updated successfully');
+            res.status(200).json({ message: 'Animaux mis à jour avec succès' });
+        });
     } catch (error) {
         console.error('Erreur lors de la modification des animaux:', error);
         res.status(500).json({ message: 'Erreur lors de la modification des animaux' });
     }
 };
+
 
 // Fonction pour récupérer la liste des comptes rendus
 exports.listeComptesRendus = async (req, res) => {
@@ -137,4 +173,12 @@ exports.filtrerComptesRendus = async (req, res) => {
         console.log('Consultation reports filtered successfully');
         res.status(200).json(results);
     });
+};
+module.exports = {
+    creerCompte: exports.creerCompte,
+    modifierServices: exports.modifierServices,
+    modifierHabitat: exports.modifierHabitat,
+    modifierAnimaux: exports.modifierAnimaux,
+    listeComptesRendus: exports.listeComptesRendus,
+    filtrerComptesRendus: exports.filtrerComptesRendus
 };

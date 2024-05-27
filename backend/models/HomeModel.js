@@ -1,13 +1,12 @@
 // Importer le module MySQL
 const mysql = require('mysql2');
 
-// Créer la connexion à la base de données
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+// Importer le module database.js
+const database = require('../../database/database');
+
+
+// Créer une connexion à la base de données en utilisant la fonction exportée du module database
+const connection = database.createConnection();
 
 // Définir le modèle HabitatBiom
 const HabitatBiom = {

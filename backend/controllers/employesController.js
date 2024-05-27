@@ -1,12 +1,9 @@
-const mysql = require('mysql');
+// Importer le module database.js
+const database = require('../../database/database');
 
-// Configuration de la connexion à la base de données
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
+
+// Créer une connexion à la base de données en utilisant la fonction exportée du module database
+const connection = database.createConnection();
 
 // Connexion à la base de données
 connection.connect((err) => {
@@ -38,13 +35,12 @@ exports.validerAvis = async (req, res) => {
 };
 
 exports.modifierServices = async (req, res) => {
-    // Logique pour modifier les services du zoo
     try {
-        // Exemple de logique pour la modification des services
-        const { serviceId, nouveauNom } = req.body;
+        const { serviceId, nouveauNom, nouvelleDescription } = req.body;
 
-        const query = 'UPDATE Services SET nom = ? WHERE id = ?';
-        connection.query(query, [nouveauNom, serviceId], (error, results) => {
+        // Logique pour mettre à jour les services
+        const query = 'UPDATE services SET nom = ?, description = ? WHERE id = ?';
+        connection.query(query, [nouveauNom, nouvelleDescription, serviceId], (error, results) => {
             if (error) {
                 console.error('Erreur lors de la modification des services :', error);
                 res.status(500).json({ message: 'Erreur lors de la modification des services' });
@@ -58,14 +54,14 @@ exports.modifierServices = async (req, res) => {
     }
 };
 
-exports.donnerNourriture = async (req, res) => {
-    // Logique pour donner de la nourriture aux animaux
-    try {
-        // Exemple de logique pour donner de la nourriture aux animaux
-        const { animalId, date, heure, nourriture, quantite } = req.body;
 
-        const query = 'INSERT INTO Nourriture (animal_id, date, heure, nourriture, quantite) VALUES (?, ?, ?, ?, ?)';
-        connection.query(query, [animalId, date, heure, nourriture, quantite], (error, results) => {
+exports.donnerNourriture = async (req, res) => {
+    try {
+        const { animalId, date, nourriture, quantite } = req.body;
+
+        // Logique pour enregistrer la donnée de nourriture
+        const query = 'INSERT INTO Nourriture (animal_id, date, nourriture, quantite) VALUES (?, ?, ?, ?)';
+        connection.query(query, [animalId, date, nourriture, quantite], (error, results) => {
             if (error) {
                 console.error('Erreur lors de la donnée de nourriture aux animaux :', error);
                 res.status(500).json({ message: 'Erreur lors de la donnée de nourriture aux animaux' });

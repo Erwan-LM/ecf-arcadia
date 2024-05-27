@@ -8,7 +8,7 @@ import ServicesScreen from '../screens/Services';
 import ConnexionScreen from '../screens/Connexion';
 import ContactScreen from '../screens/Contact';
 import AquaScreen from '../screens/Aqua';
-import MontsScreen from '../screens/Monts';
+import MontagneScreen from '../screens/Montagne';
 import PrairieScreen from '../screens/Prairie';
 import SavaneScreen from '../screens/Savane';
 import TropicScreen from '../screens/Tropic';
@@ -28,7 +28,7 @@ const AppNavigator = () => {
         <Stack.Screen name="Connexion" component={ConnexionScreen} />
         <Stack.Screen name="Contact" component={ContactScreen} />
         <Stack.Screen name="Aqua" component={AquaScreen} />
-        <Stack.Screen name="Montage" component={MontsScreen} />
+        <Stack.Screen name="Montagne" component={MontagneScreen} />
         <Stack.Screen name="Prairie" component={PrairieScreen} />
         <Stack.Screen name="Savane" component={SavaneScreen} />
         <Stack.Screen name="Tropic" component={TropicScreen} />

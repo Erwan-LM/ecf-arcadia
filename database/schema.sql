@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS Animaux (
     race VARCHAR(255) NOT NULL,
     image_path VARCHAR(255) NOT NULL,
     habitat VARCHAR(255) NOT NULL
+    a_etait_nourri_today BOOLEAN DEFAULT FALSE;
 );
 
 CREATE TABLE IF NOT EXISTS Avis (
@@ -79,6 +80,13 @@ CREATE TABLE IF NOT EXISTS ComptesRendus (
     rapport TEXT,
     FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id),
     FOREIGN KEY (id_animal) REFERENCES Animaux(id)
+);
+
+CREATE TABLE IF NOT EXISTS Contact (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  titre VARCHAR(255) NOT NULL,
+  description TEXT,
+  email VARCHAR(255) NOT NULL
 );
 
 

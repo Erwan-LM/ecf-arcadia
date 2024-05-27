@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import Container from '../components/Container';
+import useLocalIpAddress from '@config';
 
 const Avis = () => {
     const [avis, setAvis] = useState([]);
@@ -9,9 +10,11 @@ const Avis = () => {
     const [showForm, setShowForm] = useState(true);
     const [confirmationMessage, setConfirmationMessage] = useState('');
 
+    const ip = useLocalIpAddress();
+    
     useEffect(() => {
         console.log("Fetching avis data from API...");
-        fetch('http://10.0.2.2:3000/api/avis')
+        fetch(`http://${ip}:3000/api/avis`)
         .then(response => response.json())
         .then(data => {
             console.log("Avis data fetched successfully:", data);
@@ -24,7 +27,7 @@ const Avis = () => {
 
     const submitAvis = () => {
         console.log("Submitting avis...");
-        fetch('http://10.0.2.2:3000/api/avis', {
+        fetch(`http://${ip}:3000/api/avis`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

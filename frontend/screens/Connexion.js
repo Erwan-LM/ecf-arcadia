@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Container from '../components/Container';
+import useLocalIpAddress from '@config';
 
 const Connexion = ({ isVisible, onClose, navigation }) => {
     const [email, setEmail] = useState('');
     const [motDePasse, setMotDePasse] = useState('');
 
+    const ip = useLocalIpAddress();
+
     const handleConnexion = async () => {
         try {
-            const response = await fetch('http://10.0.2.2:3000/api/utilisateurs/login', {
+            const response = await fetch(`http://${ip}:3000/api/utilisateurs/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,6 +22,9 @@ const Connexion = ({ isVisible, onClose, navigation }) => {
                 }),
             });
             const data = await response.json();
+            
+            // Log de la réponse pour vérifier
+            console.log('Response data:', data);
 
             // Vérification de la réponse du serveur
             if (response.ok) {
@@ -26,14 +32,17 @@ const Connexion = ({ isVisible, onClose, navigation }) => {
                 switch (data.type) {
                     case 'Administrateur':
                         // Rediriger vers Administrateur.js
+                        console.log('Navigating to Administrateur');
                         navigation.navigate('Administrateur');
                         break;
                     case 'Employé':
                         // Rediriger vers Employe.js
+                        console.log('Navigating to Employe');
                         navigation.navigate('Employe');
                         break;
                     case 'Vétérinaire':
                         // Rediriger vers Veterinaire.js
+                        console.log('Navigating to Veterinaire');
                         navigation.navigate('Veterinaire');
                         break;
                     default:

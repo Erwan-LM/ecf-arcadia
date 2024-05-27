@@ -59,7 +59,7 @@ const Navigation = () => {
       </View>
       {showSubTabs && (
         <View style={styles.subTabsContainer}>
-          {['Aqua', 'Montage', 'Prairie', 'Savane', 'Tropic'].map((subTab) => (
+          {['Aqua', 'Montagne', 'Prairie', 'Savane', 'Tropic'].map((subTab) => (
             <TouchableOpacity key={subTab} onPress={() => navigateToScreen(subTab)} style={styles.subTabItem}>
               <Text style={styles.subTabText}>{subTab}</Text>
             </TouchableOpacity>
